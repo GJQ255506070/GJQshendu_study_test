@@ -1269,5 +1269,56 @@
             document.getElementById('searchInput').value = '';
         }
     </script>
+    // 处理API请求
+const urlParams = new URLSearchParams(window.location.search);
+const action = urlParams.get('action');
+const keyword = urlParams.get('keyword');
+const id = urlParams.get('id');
+
+if (action) {
+    // 根据action处理请求
+    let response;
+    
+    if (action === 'search' && keyword) {
+        response = {
+            success: true,
+            message: `搜索"${keyword}"的结果`,
+            count: 10, // 实际搜索到的数量
+            data: ["搜索结果1", "搜索结果2"] // 实际搜索结果
+        };
+    } else if (action === 'question' && id) {
+        response = {
+            success: true,
+            message: `获取第${id}题成功`,
+            data: {
+                id: parseInt(id),
+                content: `第${id}题的内容...`
+            }
+        };
+    } else if (action === 'statistics') {
+        response = {
+            success: true,
+            message: "统计信息获取成功",
+            data: {
+                total_questions: 200,
+                single_choice: 77,
+                multi_choice: 35,
+                fill_blank: 10,
+                short_answer: 4,
+                judgement: 38
+            }
+        };
+    } else {
+        response = {
+            success: false,
+            message: "参数错误，请检查action和对应参数"
+        };
+    }
+    
+    // 返回JSON格式响应
+    document.body.innerHTML = `<pre>${JSON.stringify(response, null, 2)}</pre>`;
+}
 </body>
+
+
 </html>
